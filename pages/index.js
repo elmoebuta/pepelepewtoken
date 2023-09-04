@@ -4,18 +4,18 @@ import { Web3Button } from "@thirdweb-dev/react";
 import { useState } from "react";
 
 export default function Home() {
+  const contractAddress ="0xe952DD7eF958119ac7A0EF9bab26CAa9395bdC18";
   const [amount, setAmount] = useState("");
   const address =useAddress();
   const {
     contract
-  } = useContract ("0xe952DD7eF958119ac7A0EF9bab26CAa9395bdC18");
+  } = useContract(contractAddress);
 
   const {
     data: balance
   } =useTokenBalance(contract,address);
 
   const { data: supply } = useTokenSupply(contract);
-  const { mutate: claimTokens, isLoading} = useClaimToken(contract);
 
 
   return (
@@ -56,9 +56,9 @@ export default function Home() {
           <p>Claim your PEPES:  </p>
           <input type="number" value={amount} onChange={(e)=> setAmount(e.target.value)}/>
           <Web3Button
-      contractAddress="0xe952DD7eF958119ac7A0EF9bab26CAa9395bdC18"
+      contractAddress={contractAddress}
       
-      action={(contract) => contract.erc20.claim(amount)}
+      action={(contract) => contract.erc20.claim(amount.toString())}
     >
       Claim {amount} {supply?.symbol}
     </Web3Button>
